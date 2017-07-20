@@ -1,0 +1,46 @@
+{% load i18n cms_tags %}
+
+{% if modules|length > 0 %}
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">
+                    {% if instance.compulsory %}
+                        {% trans "Compulsory Modules" %}
+                    {% else %}
+                        {% trans "Optional Modules" %}
+                    {% endif %}
+                </th>
+                <th class="hidden-xs" scope="col">{% trans "Code" %}</th>
+                <th class="hidden-xs" scope="col">{% trans "Credits" %}</th>
+                <th class="hidden-xs" scope="col">{% trans "Next Start Date" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for module in modules %}
+                <tr>
+                    <td>
+                        <a href="{{ module.get_page.get_absolute_url }}">
+                            {{ module.course.display_name }}
+                        </a>
+                    </td>
+                    <td class="hidden-xs">
+                        <a href="{{ module.get_page.get_absolute_url }}">
+                            {{ module.course.vle_course_id }}
+                         </a>
+                    </td>
+                    <td class="hidden-xs">{{ module.course.credits }}</td>
+                    <td class="hidden-xs">{{ module.course.next_start_date|date:"d F Y" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>
+        {% if instance.compulsory %}
+            {% trans "There are no compulsory modules to show." %}
+        {% else %}
+            {% trans "There are no optional modules to show." %}
+        {% endif %}
+    </p>
+{% endif %}
